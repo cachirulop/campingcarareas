@@ -1,10 +1,14 @@
-package com.cahirulop.campingcarareas;
+package com.cachirulop.campingcarareas;
+
+import com.cahirulop.campingcarareas.R;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.ZoomDensity;
@@ -14,6 +18,8 @@ import android.widget.Toast;
 
 public class CampingCarAreasActivity extends Activity {
 	WebView _wvContent;
+	
+	public static final int MENU_HOME= 1;
 
 	private static final String PREFERENCES_SHARED_NAME = "preferences";
 	private static final String PREFERENCES_LAST_URL = "lastURL";
@@ -93,7 +99,7 @@ public class CampingCarAreasActivity extends Activity {
 	private class CampingCarAreasWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			view.loadUrl(url);
+			loadUrl(url);
 			return true;
 		}
 	}
@@ -112,7 +118,7 @@ public class CampingCarAreasActivity extends Activity {
 					PREFERENCES_DEFAULT_URL_VALUE);
 		}
 
-		_wvContent.loadUrl(url);
+		loadUrl(url);
 	}
 	
 	private void saveLastURL (String URL) {
@@ -125,5 +131,40 @@ public class CampingCarAreasActivity extends Activity {
 	      
 	      // Commit the edits!
 	      editor.commit();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		boolean result;
+		MenuItem item;
+		
+		result = super.onCreateOptionsMenu(menu);
+		
+		item = menu.add(0, MENU_HOME, 0, R.string.menu_home);
+		item.setIcon(R.drawable.ic_menu_home);
+		
+		return result;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case MENU_HOME:
+    		loadUrl(CampingCarAreasActivity.PREFERENCES_DEFAULT_URL_VALUE);
+            return true;
+        }
+        
+        return super.onOptionsItemSelected(item);
+    }	
+	
+	private void loadUrl (String url) {
+		Toast msg;
+		
+		msg = Toast.makeText(getApplicationContext(), 
+							 String.format(getString(R.string.loading), url), 
+							 Toast.LENGTH_LONG);
+		msg.show();
+		
+		_wvContent.loadUrl(url);
 	}
 }

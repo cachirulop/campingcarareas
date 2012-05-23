@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="hello">Hello World, CampingCarAreasActivity!</string>
-    <string name="app_name">CampingCarAreas</string>
-
+    <string name="app_name">Areas de Camping Car</string>
+    <string name="menu_home">Ir al inicio</string>
+    <string name="loading">Cargando %s</string>
 </resources>
